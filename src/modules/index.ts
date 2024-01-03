@@ -1,3 +1,3 @@
-import { UserModule } from './users/user.module';
+import { CategoryModule } from './categories/category.module';
 
-export const featureModules = [UserModule];
+export const featureModules = [CategoryModule];

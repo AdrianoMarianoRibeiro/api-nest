@@ -2,13 +2,16 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { featureModules } from './modules';
 import { Category } from './modules/categories/category.entity';
-import { Product } from './modules/products/product.entity';
 
 const defaultOptions: TypeOrmModuleOptions = {
-  type: 'sqlite',
-  database: 'db/sql',
-  synchronize: true,
-  entities: [Category, Product],
+  type: 'postgres',
+  port: 5432,
+  username: 'postgres',
+  password: 'senha',
+  database: 'database',
+  synchronize: false,
+  host: '127.0.0.1',
+  entities: [Category],
 };
 
 @Module({
