@@ -18,7 +18,7 @@ export class Product {
   @Column()
   name: string;
 
-  @ManyToOne((type) => Category, (category) => category.products)
+  @ManyToOne(() => Category, (category) => category.products)
   @JoinColumn({ name: 'category_id' })
   category: Category;
 

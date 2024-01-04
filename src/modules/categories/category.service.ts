@@ -1,17 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { CategoryRepository } from './category.repository';
 import { Category } from './category.entity';
-import { CreateCategoryDto } from './dto/create-category.dto';
+import { CreateCategoryDto } from './dtos/create-category.dto';
+import { UpdateCategoryDto } from './dtos/update-category.dto';
 import { plainToClass } from 'class-transformer';
-import { UpdateCategoryDto } from './dto/update-category.dto';
 
 @Injectable()
 export class CategoryService {
-  constructor(private categoryRepository: CategoryRepository) {}
+  constructor(private repository: CategoryRepository) {}
 
   async create(createCategoryDto: CreateCategoryDto): Promise<Category> {
     const category = plainToClass(Category, createCategoryDto);
-    return await this.categoryRepository.create(category);
+    return await this.repository.create(category);
   }
 
   async update(
@@ -29,10 +29,25 @@ export class CategoryService {
       category.description = updateCategoryDto.description;
     }
 
-    return await this.categoryRepository.update(category);
+    return await this.repository.update(category);
   }
 
-  async findById(id: number): Promise<Category> {
-    return await this.categoryRepository.findById(id);
+  async delete(id: number): Promise<boolean> {
+    return await this.repository.delete(id);
+  }
+
+  async findById(id: number): Promise<any> {
+    const category = await this.repository.findById(id);
+    return {
+      id: category.id,
+      description: category.description,
+      products: category.products,
+      created_at: category.createdAt,
+      updated_at: category.updatedAt,
+    };
+  }
+
+  async findAll(): Promise<any> {
+    return await this.repository.findAll();
   }
 }

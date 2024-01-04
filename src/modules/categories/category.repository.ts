@@ -7,18 +7,30 @@ import { Repository } from 'typeorm';
 export class CategoryRepository {
   constructor(
     @InjectRepository(Category)
-    private categoryRepository: Repository<Category>,
+    private repository: Repository<Category>,
   ) {}
 
   async create(category: Category): Promise<Category> {
-    return await this.categoryRepository.save(category);
+    return await this.repository.save(category);
   }
 
   async update(category: Category): Promise<Category> {
-    return await this.categoryRepository.save(category);
+    return await this.repository.save(category);
+  }
+
+  async delete(id: number): Promise<boolean> {
+    const response = await this.repository.softDelete(id);
+    if (!response.affected) {
+      throw new Error('Categoria não encontrada');
+    }
+    return true;
   }
 
   async findById(id: number): Promise<Category> {
-    return await this.categoryRepository.findOne({ where: { id } });
+    return await this.repository.findOne({ where: { id } });
+  }
+
+  async findAll(): Promise<Category[]> {
+    return this.repository.find();
   }
 }

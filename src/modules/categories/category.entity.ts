@@ -17,7 +17,7 @@ export class Category {
   @Column()
   description: string;
 
-  @OneToMany((type) => Product, (product) => product.category)
+  @OneToMany(() => Product, (product) => product.category)
   products: Product[];
 
   @CreateDateColumn({
@@ -27,6 +27,7 @@ export class Category {
 
   @UpdateDateColumn({
     name: 'updated_at',
+    default: null,
   })
   updatedAt: Date;
 
