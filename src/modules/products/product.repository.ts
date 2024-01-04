@@ -7,10 +7,30 @@ import { Repository } from 'typeorm';
 export class ProductRepository {
   constructor(
     @InjectRepository(Product)
-    private productRepository: Repository<Product>,
+    private repository: Repository<Product>,
   ) {}
 
+  async create(product: Product): Promise<Product> {
+    return await this.repository.save(product);
+  }
+
+  async update(product: Product): Promise<Product> {
+    return await this.repository.save(product);
+  }
+
+  async delete(id: number): Promise<boolean> {
+    const response = await this.repository.softDelete(id);
+    if (!response.affected) {
+      throw new Error('Categoria não encontrada');
+    }
+    return true;
+  }
+
   async findById(id: number): Promise<Product> {
-    return await this.productRepository.findOne({ where: { id } });
+    return await this.repository.findOne({ where: { id } });
+  }
+
+  async findAll(): Promise<Product[]> {
+    return this.repository.find();
   }
 }

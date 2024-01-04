@@ -3,14 +3,14 @@ import { CategoryRepository } from './category.repository';
 import { Category } from './category.entity';
 import { CreateCategoryDto } from './dtos/create-category.dto';
 import { UpdateCategoryDto } from './dtos/update-category.dto';
-import { plainToClass } from 'class-transformer';
+import { plainToInstance } from 'class-transformer';
 
 @Injectable()
 export class CategoryService {
   constructor(private repository: CategoryRepository) {}
 
   async create(createCategoryDto: CreateCategoryDto): Promise<Category> {
-    const category = plainToClass(Category, createCategoryDto);
+    const category = plainToInstance(Category, createCategoryDto);
     return await this.repository.create(category);
   }
 
